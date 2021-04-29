@@ -1,34 +1,20 @@
 import cv2
+video = cv2.VideoCapture(0)
+classificadorFace = cv2.CascadeClassifier("/home/rafaela/Documents/Rafaela_VC/semana_prof_2021.1/cascades/haarcascade_frontalface_default.xml")
 
+while True:
+    conectado, frame = video.read()
+    #print(frame)
 
-modelo = cv2.CascadeClassifier("cascades\haarcascade_eye.xml")
-video = True
+    frameCinza = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    facesDetectadas = classificadorFace.detectMultiScale(frameCinza, minSize=(70,70))
+    for (x, y, l, a) in facesDetectadas:
+        cv2.rectangle(frame, (x, y), (x + l, y + a), (0, 0, 255), 2)
 
-def normalize_grayimage(imagem):
-    imagem = cv2.equalizeHist(imagem)
-    cv2.imshow("Equalized img", imagem)
+    cv2.imshow('Vídeo', frame)
 
-    return imagem
+    if cv2.waitKey(1) == ord('q'):
+        break
 
-
-camera = cv2.VideoCapture(0)
-amostra = 1
-numeroAmostras = 5
-connect, imagem = camera.read()
-gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
-gray = normalize_grayimage(gray)
-largura, altura = 150, 150
-facesDetectadas = modelo.detectMultiScale(gray, scaleFactor=1.5, minSize=(30,30))
-
-for(x, y, l, a) in facesDetectadas:
-    imagem = cv2.rectangle(imagem, (x, y), (x + l, y + a), (0, 0, 255), 2)
-
-    if cv2.waitKey(1) & 0xFF == ord(
-            'q'):  # Sempre que apertar a tecla 'q', o comando abaixo será  selecionado (Salvar ImagemFace)
-        imagemFace = cv2.resize(gray[y:y + a, x:x + l], (largura, altura))
-        cv2.imwrite("fotos\pessoa." + str(id) + "." + str(amostra) + ".jpg", imagemFace)
-        print("[foto" + str(amostra) + "capturada com sucesso]")
-        amostra += 1
-
-cv2.imshow("Detectado", imagem)
-cv2.waitKey()
+video.release()
+cv2.destroyAllWindows()

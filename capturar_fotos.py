@@ -3,7 +3,7 @@ import cv2
 classificador = cv2.CascadeClassifier('cascades/haarcascade_frontalface_default.xml')
 camera = cv2.VideoCapture(0)
 amostra = 0
-numeroAmostras = 20
+numeroAmostras = 15
 id = input("Digite seu identificador")
 largura, altura = 220, 165                          #Tamanho da foto que eu vou tirar
 
@@ -21,7 +21,7 @@ while True:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             #Sempre que apertar a tecla 'q', o comando abaixo será  selecionado (Salvar ImagemFace)
             imagemFace = cv2.resize(imagemCinza[y:y + a, x:x + l], (largura, altura))
-            cv2.imwrite("fotos/pessoa." + str(id) + "." + str(amostra) + ".jpg", imagemFace)
+            cv2.imwrite("dataset/" + str(id) + "." + str(amostra) + ".jpg", imagemFace)
             print("[foto" + str(amostra) + "capturada com sucesso]")
             amostra += 1
 

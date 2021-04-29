@@ -7,9 +7,8 @@ eigenface = cv2.face.EigenFaceRecognizer_create(40, 8000)
 fisherface = cv2.face.FisherFaceRecognizer_create(3, 2000)
 lbph = cv2.face.LBPHFaceRecognizer_create(2, 2, 7, 7, 50)
 
-
 def getImagemComId():
-    caminhos = [os.path.join('fotos/Treinamento', f) for f in os.listdir('fotos/Treinamento')]
+    caminhos = [os.path.join('dataset/', f) for f in os.listdir('dataset/')]
     faces = []
     ids = []
     for caminhoImagem in caminhos:
@@ -29,8 +28,8 @@ print("Treinando...")
 eigenface.train(faces, ids)
 eigenface.write('classificadorEigenYale.yml')
 
-fisherface.train(faces, ids)
-fisherface.write('classificadorFisherYale.yml')
+#fisherface.train(faces, ids)
+#fisherface.write('classificadorFisherYale.yml')
 
 lbph.train(faces, ids)
 lbph.write('classificadorLBPHYale.yml')
